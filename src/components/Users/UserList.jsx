@@ -19,7 +19,8 @@ export default function UserList() {
     const searchtime = setTimeout(() => {
        if(searchkeyword.trim() === ''){
           if(data.length > 0){
-            setDisplayData(data)
+            setDisplayData(data);
+            setSortKeyword('')
           }
        } 
        else{
@@ -32,18 +33,21 @@ export default function UserList() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[searchkeyword])  
 
-  useEffect(()=>{
-       if(sortkeyword.trim() === ''){
-          if(data.length > 0){
-            setDisplayData(data)
-            setSearchKeyword('')
-          }
-       } 
+  const HandelSort = (key) =>{
+    if(sortkeyword.trim() === ''){
+      if(data.length > 0){
+        setDisplayData(data)
+      }
+   } 
+   else{
+       if(key === "company"){
+         setDisplayData(data.sort((a,b)=> a[key].name.localeCompare(b[key].name)))    
+       }
        else{
-         fetch(`https://dummyjson.com/users/filter?${sortkeyword.trim()}`).then(res => res.json()).then(data=>setDisplayData(data.users));           
-       }            
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[sortkeyword])
+        data.sort((a,b)=> a[key].localeCompare(b[key]))
+       }  
+   }
+  }
 
 
   return (
@@ -53,14 +57,14 @@ export default function UserList() {
         <div className="join">
           <div>
             <div>  
-              <input type="text" value={searchkeyword} onChange={(e)=>setSearchKeyword(e.target.value)} placeholder="Search user" className="input join-item input-bordered w-full min-w-[150px]" />
+              <input type="text" value={searchkeyword} onChange={(e)=>setSearchKeyword(e.target.value)} placeholder="Search user By Name" className="input join-item input-bordered  lg:w-[350px]" />
             </div>
           </div>
-          <select value={sortkeyword} disabled={!searchkeyword.trim()} onChange={(e)=>setSortKeyword(e.target.value)} className="select join-item text-base disabled:border-gray-400 disabled:text-gray-400 text-gray-500 select-bordered w-full max-w-xs">
+          <select value={sortkeyword} onChange={(e)=>(HandelSort(e.target.value),setSortKeyword(e.target.value))} className="select join-item text-base  text-gray-500 select-bordered w-full max-w-xs">
          <option value={''}>Sort User</option>
-         <option value={`key=firstName&value=${searchkeyword}`}>Sort By Name</option>
-         <option value={`key=email&value=${searchkeyword}`}>Sort By Email</option>
-         <option value={`key=company.name&value=${searchkeyword}`}>Sort By Company Name</option>
+         <option value={`firstName`}>Sort By Name</option>
+         <option value={`email`}>Sort By Email</option>
+         <option value={`company`}>Sort By Company Name</option>
          
        </select>
         </div>
