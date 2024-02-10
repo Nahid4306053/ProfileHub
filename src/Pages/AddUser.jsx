@@ -8,7 +8,7 @@ export default function AddUser() {
           <PageBanner description={ "Discover and showcase your online identity. Connect, share, and thrive in the digital realm." } title={"Add New User"} bgimg={"https://i.ibb.co/hB1XkNP/community.png"} ></PageBanner>
 
           <div className="container mx-auto">
-          <div className="flex gap-20 my-20">
+          <div className="lg:flex gap-20 space-y-14 lg:space-y-0 my-20">
            <div className="lg:w-4/6 w-full">
             <UserForm></UserForm>         
            </div>
