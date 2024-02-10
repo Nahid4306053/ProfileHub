@@ -20,10 +20,11 @@ export default function UserList() {
        if(searchkeyword.trim() === ''){
           if(data.length > 0){
             setDisplayData(data);
-            setSortKeyword('')
+           
           }
        } 
-       else{
+       else{ 
+        setSortKeyword('')
          fetch(`https://dummyjson.com/users/search?q=${searchkeyword.trim()}`).then(res => res.json()).then(data=>setDisplayData(data.users));           
        }            
     }, 500);
@@ -41,10 +42,10 @@ export default function UserList() {
    } 
    else{
        if(key === "company"){
-         setDisplayData(data.sort((a,b)=> a[key].name.localeCompare(b[key].name)))    
+         setDisplayData(displayData.sort((a,b)=> a[key].name.localeCompare(b[key].name)))    
        }
        else{
-        data.sort((a,b)=> a[key].localeCompare(b[key]))
+        displayData.sort((a,b)=> a[key].localeCompare(b[key]))
        }  
    }
   }
